@@ -90,7 +90,7 @@ class CloseApproach (NearEarthObject):
     # TODO: How can you, and should you, change the arguments to this constructor?
     # If you make changes, be sure to update the comments in this file.
     # The arguments to this constructor is changed
-    def __init__(self, time = '', distance=float('nan'), velocity=float('nan'),neo=None):
+    def __init__(self, designation='', time = '', distance=float('nan'), velocity=float('nan'),neo=None):
         """Create a new `CloseApproach`.
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
@@ -99,9 +99,8 @@ class CloseApproach (NearEarthObject):
         # onto attributes named `_designation`, `time`, `distance`, and `velocity`.
         # You should coerce these values to their appropriate data type and handle any edge cases.
         # The `cd_to_datetime` function will be useful.
-        self._designation = NearEarthObject.designation
-        self._name = NearEarthObject(name)
-        self.time = datetime_to_str(cd_to_datetime(time))  # TODO: Use the cd_to_datetime function for this attribute.
+        self._designation = designation
+        self.time = datetime_to_str(cd_to_datetime(time)) # TODO: Use the cd_to_datetime function for this attribute.
         self.distance = distance
         self.velocity = velocity
 
@@ -110,8 +109,8 @@ class CloseApproach (NearEarthObject):
 
     @property
     def fullname(self):
-        if self._name != None:
-            return self._name
+        if self.neo != None:
+            return self.neo
         else:
             return self._designation
 
@@ -131,16 +130,16 @@ class CloseApproach (NearEarthObject):
         # TODO: Use this object's `.time` attribute and the `datetime_to_str` function to
         # build a formatted representation of the approach time.
         # TODO: Use self.designation and self.name to build a fullname for this object.
-        return f'At {sef.time}, {(self.fullname)} approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s'
+        return f'{self.time}'        
 
     def __str__(self):
         """Return `str(self)`."""
         # TODO: Use this object's attributes to return a human-readable string representation.
         # The project instructions include one possibility. Peek at the __repr__
         # method for examples of advanced string formatting.
-        return f"A CloseApproach ..."
+        return f"A CloseApproach at {self.time}, {(self.fullname)} approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s"
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
-        return (f"CloseApproach(time={self.time_str!r}, distance={self.distance:.2f}, "
+        return (f"CloseApproach(time={self.time!r}, distance={self.distance:.2f}, "
                 f"velocity={self.velocity:.2f}, neo={self.neo!r})")
