@@ -71,6 +71,30 @@ class AttributeFilter:
     def __repr__(self):
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
+class Date_Filter(AttributeFilter):
+    @classmethod
+    def get(cls, approach):
+        return approach.time.date()
+
+class Distance_Filter(AttributeFilter):
+    @classmethod
+    def get(cls, approach):
+        return approach.distance
+
+class Velocity_Filter(AttributeFilter):
+    @classmethod
+    def get(cls, approach):
+        return approach.velocity
+
+class Diameter_Filter(AttributeFilter):
+    @classmethod
+    def get(cls,approach):
+        return approach.neo.diameter
+
+class Hazardous_Filter(AttributeFilter):
+    @classmethod
+    def get(cls,approach):
+        return approach.neo.hazardous
 
 def create_filters(date=None, start_date=None, end_date=None,
                    distance_min=None, distance_max=None,
@@ -107,7 +131,28 @@ def create_filters(date=None, start_date=None, end_date=None,
     :return: A collection of filters for use with `query`.
     """
     # TODO: Decide how you will represent your filters.
-    return ()
+    filters = {}
+    if date:
+        filters['date'] = Date_Filter(operator.eq date)
+    elif start_date:
+        filters['start_date'] = Date_Filter(operator.ge, start_date)
+    elif end_date:
+        filters['end_date'] = Date_Filter(operator.le, end_date)
+    elif distance_max:
+        filters['distance_max'] = Distance_Filter(operator.le, distance_max)
+    elif distance_min:
+        filters['distance_min'] = Distance_Filter(operator.ge, distance_min)
+    elif velocity_min:
+        filters['velocity_min'] = Velocity_Filter(operator.ge, velocity_min)
+    elif velocity_max:
+        filters['velocity_max'] = Velocity_Filter(operator.le, velocity_max)
+    elif diameter_min:
+        filters['diameter_min'] = Diameter_Filter(operator.ge, diameter_min)
+    elif diameter_max:
+        filters['diameter_max'] = Diameter_Filter(operator.le, diameter_max)    
+    elif hazardous:
+        filters['hazardous'] = Hazardous_Filter(operator.eq, hazardous)
+    return filters
 
 
 def limit(iterator, n=None):
