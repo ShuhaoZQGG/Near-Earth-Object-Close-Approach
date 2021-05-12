@@ -44,7 +44,7 @@ def load_approaches(cad_json_path):
     
     with open(cad_json_path,'r') as infile:
         contents = json.load(infile)
-        for approach in ca ['data']:
-            approach = dict(zip(data['fileds'], approach))
+        for approach in contents ['data']:
+            approach = dict(zip(contents['fields'], approach))
             ca.append(CloseApproach(**approach))
     return ca
