@@ -131,27 +131,29 @@ def create_filters(date=None, start_date=None, end_date=None,
     :return: A collection of filters for use with `query`.
     """
     # TODO: Decide how you will represent your filters.
-    filters = {}
+    filters = []
     if date:
-        filters['date'] = Date_Filter(operator.eq, date)
-    elif start_date:
-        filters['start_date'] = Date_Filter(operator.ge, start_date)
-    elif end_date:
-        filters['end_date'] = Date_Filter(operator.le, end_date)
-    elif distance_max:
-        filters['distance_max'] = Distance_Filter(operator.le, distance_max)
-    elif distance_min:
-        filters['distance_min'] = Distance_Filter(operator.ge, distance_min)
-    elif velocity_min:
-        filters['velocity_min'] = Velocity_Filter(operator.ge, velocity_min)
-    elif velocity_max:
-        filters['velocity_max'] = Velocity_Filter(operator.le, velocity_max)
-    elif diameter_min:
-        filters['diameter_min'] = Diameter_Filter(operator.ge, diameter_min)
-    elif diameter_max:
-        filters['diameter_max'] = Diameter_Filter(operator.le, diameter_max)    
-    elif hazardous:
-        filters['hazardous'] = Hazardous_Filter(operator.eq, hazardous)
+        filters.append(Date_Filter(operator.eq, date))
+    if start_date:
+        filters.append(Date_Filter(operator.ge, start_date))
+    if end_date:
+        filters.append(Date_Filter(operator.le, end_date))
+    if distance_min:
+        filters.append(Distance_Filter(operator.ge, distance_min))
+    if distance_max:
+        filters.append(Distance_Filter(operator.le, distance_max))
+    if velocity_min:
+        filters.append(Velocity_Filter(operator.ge, velocity_min))
+    if velocity_max:
+        filters.append(Velocity_Filter(operator.le, velocity_max))
+    if diameter_min:
+        filters.append(Diameter_Filter(operator.ge, diameter_min))
+    if diameter_max:
+        filters.append(Diameter_Filter(operator.le, diameter_max))
+    if hazardous is not None:
+        filters.append(Hazardous_Filter(operator.eq, hazardous))
+
+    
     return filters
 
 

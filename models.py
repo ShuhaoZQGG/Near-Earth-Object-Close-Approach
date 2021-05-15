@@ -46,11 +46,18 @@ class NearEarthObject:
         # and a missing diameter being represented by `float('nan')`.
         self.designation = info.get("pdes")
         self.name = info.get("name")
+        if self.name == "":
+            self.name = None
         self.diameter = info.get("diameter")
         if not self.diameter:
             self.diameter = float("nan")
+        else:
+            self.diameter = float(self.diameter)
         self.hazardous = info.get("pha")
-
+        if self.hazardous.upper() == 'Y':
+            self.hazardous = True
+        else:
+            self.hazardous = False
         # Create an empty initial collection of linked approaches.
         self.approaches = []
 
@@ -58,9 +65,10 @@ class NearEarthObject:
     def fullname(self):
         """Return a representation of the full name of this NEO."""
         # TODO: Use self.designation and self.name to build a fullname for this object.
-        if self.name != None:
+        if self.name is not None:
             return f"{self.designation} ({self.name})"
-        return self.designation
+        else:
+            return self.designation
 
     def __str__(self):
         """Return `str(self)`."""
@@ -103,8 +111,9 @@ class CloseApproach ():
         self._designation = info.get("des",None)
         self.time = cd_to_datetime(info.get("cd", None)) # TODO: Use the cd_to_datetime function for this attribute.
         self.distance = info.get("dist", float("nan"))
+        self.distance = float(self.distance)
         self.velocity = info.get("v_rel", float("nan"))
-
+        self.velocity = float(self.velocity)
         # Create an attribute for the referenced NEO, originally None.
         self.neo = info.get("neo", None)
 
