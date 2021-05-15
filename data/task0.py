@@ -43,5 +43,3 @@ with open('cad.json','r') as infile:
             print(element[3])
             print(element[7])
 infile.close()
-
-
