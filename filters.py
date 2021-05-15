@@ -17,7 +17,7 @@ iterator.
 You'll edit this file in Tasks 3a and 3c.
 """
 import operator
-
+from itertools import islice
 
 class UnsupportedCriterionError(NotImplementedError):
     """A filter criterion is unsupported."""
@@ -133,7 +133,7 @@ def create_filters(date=None, start_date=None, end_date=None,
     # TODO: Decide how you will represent your filters.
     filters = {}
     if date:
-        filters['date'] = Date_Filter(operator.eq date)
+        filters['date'] = Date_Filter(operator.eq, date)
     elif start_date:
         filters['start_date'] = Date_Filter(operator.ge, start_date)
     elif end_date:
@@ -165,4 +165,7 @@ def limit(iterator, n=None):
     :yield: The first (at most) `n` values from the iterator.
     """
     # TODO: Produce at most `n` values from the given iterator.
-    return iterator
+    if n is None or n == 0:
+        return islice(iterator,None)
+    else:
+        return islice(iterator, n)

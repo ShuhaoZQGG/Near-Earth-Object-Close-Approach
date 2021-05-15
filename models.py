@@ -59,7 +59,7 @@ class NearEarthObject:
         """Return a representation of the full name of this NEO."""
         # TODO: Use self.designation and self.name to build a fullname for this object.
         if self.name != None:
-            return f"{self.designation} {self.name}"
+            return f"{self.designation} ({self.name})"
         return self.designation
 
     def __str__(self):
@@ -101,12 +101,12 @@ class CloseApproach ():
         # You should coerce these values to their appropriate data type and handle any edge cases.
         # The `cd_to_datetime` function will be useful.
         self._designation = info.get("des",None)
-        self.time = info.get("cd", None) # TODO: Use the cd_to_datetime function for this attribute.
-        self.distance = info.get("dist",float('nan'))
-        self.velocity = info.get("v_rel", float('nan'))
+        self.time = cd_to_datetime(info.get("cd", None)) # TODO: Use the cd_to_datetime function for this attribute.
+        self.distance = info.get("dist", float("nan"))
+        self.velocity = info.get("v_rel", float("nan"))
 
         # Create an attribute for the referenced NEO, originally None.
-        self.neo = info.get('neo', None)
+        self.neo = info.get("neo", None)
 
     @property
     def fullname(self):
@@ -131,7 +131,7 @@ class CloseApproach ():
         # TODO: Use this object's `.time` attribute and the `datetime_to_str` function to
         # build a formatted representation of the approach time.
         # TODO: Use self.designation and self.name to build a fullname for this object.
-        return datetime_to_str(cd_to_datetime(self.time))       
+        return datetime_to_str(self.time)       
 
     def __str__(self):
         """Return `str(self)`."""

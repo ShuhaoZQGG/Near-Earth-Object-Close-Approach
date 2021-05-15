@@ -13,6 +13,7 @@ You'll edit this file in Tasks 2 and 3.
 """
 from models import NearEarthObject
 from models import CloseApproach
+from filters import AttributeFilter
 class NEODatabase:
     """A database of near-Earth objects and their close approaches.
 
@@ -107,4 +108,5 @@ class NEODatabase:
         """
         # TODO: Generate `CloseApproach` objects that match all of the filters.
         for approach in self._approaches:
-            yield approach
+            if all((map(lambda x: x(approach), filters.values()))):
+                        yield approach
