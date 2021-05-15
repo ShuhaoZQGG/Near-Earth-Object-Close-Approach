@@ -28,7 +28,6 @@ with open('neos.csv','r') as infile:
 print(count)
 print(count_dia)
 
-
 with open('cad.json','r') as infile:
     contents = json.load(infile)
     print(contents['count'])
@@ -43,5 +42,3 @@ with open('cad.json','r') as infile:
             print(element[3])
             print(element[7])
 infile.close()
-
-
