@@ -11,6 +11,8 @@ extension determines which of these functions is used.
 You'll edit this file in Part 4.
 """
 import csv
+from os import name
+from helpers import datetime_to_str
 import json
 
 
@@ -26,6 +28,29 @@ def write_to_csv(results, filename):
     """
     fieldnames = ('datetime_utc', 'distance_au', 'velocity_km_s', 'designation', 'name', 'diameter_km', 'potentially_hazardous')
     # TODO: Write the results to a CSV file, following the specification in the instructions.
+    with open(filename,'w') as outfile:
+        writer = csv.DictWriter(outfile, fieldnames = fieldnames)
+        writer.writeheader()
+        for element in results:
+            if element.neo.name == None:
+                element.neo.name = ''
+            if element.neo.hazardous == True:
+                element.neo.hazardous = 'True'
+            else:
+                element.neo.hazardous = 'False'
+
+            writer.writerow(
+                {
+                    fieldnames[0]: element.time_str,
+                    fieldnames[1]: element.distance,
+                    fieldnames[2]: element.velocity,
+                    fieldnames[3]: element._designation,
+                    fieldnames[4]: element.neo.name,
+                    fieldnames[5]: element.neo.diameter,
+                    fieldnames[6]: element.neo.hazardous
+                }
+            )
+
 
 
 def write_to_json(results, filename):
@@ -40,3 +65,23 @@ def write_to_json(results, filename):
     :param filename: A Path-like object pointing to where the data should be saved.
     """
     # TODO: Write the results to a JSON file, following the specification in the instructions.
+    json_data = list()
+    for element in results:
+        if element.neo.name == None:
+            element.neo.name = ''
+        json_data.append(
+            {
+            'datetime_utc' : datetime_to_str(element.time),
+            'distance_au'  : element.distance,
+            'velocity_km_s': element.velocity,
+            'neo':{
+                'designation': element.neo.designation,
+                'name'       : element.neo.name,
+                'diameter_km': element.neo.diameter,
+                'potentially_hazardous': element.neo.hazardous
+            }
+        }
+        )
+    
+    with open(filename,'w') as outfile:
+        outfile.write(json.dumps(json_data, indent = '\t'))
