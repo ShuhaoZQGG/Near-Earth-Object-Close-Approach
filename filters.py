@@ -152,7 +152,7 @@ def create_filters(date=None, start_date=None, end_date=None,
     is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-    # TODO: Decide how you will represent your filters.
+
     filters = []
     if date:
         filters.append(Date_Filter(operator.eq, date))
@@ -187,7 +187,7 @@ def limit(iterator, n=None):
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-    # TODO: Produce at most `n` values from the given iterator.
+
     if n is None or n == 0:
         return islice(iterator, None)
     else:
