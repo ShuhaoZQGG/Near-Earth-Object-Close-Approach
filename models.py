@@ -39,7 +39,6 @@ class NearEarthObject:
         :param info: A dictionary of excess keyword arguments supplied to the
         constructor.
         """
-
         self.designation = info.get("pdes")
         self.name = info.get("name")
         if self.name == "":
@@ -71,7 +70,6 @@ class NearEarthObject:
 
     def __str__(self):
         """Return `str(self)`."""
-
         return \
             f"A NearEarthObject {self.fullname}\
                      has a diameter of {float(self.diameter):.3f}\
@@ -86,6 +84,7 @@ class NearEarthObject:
                      hazardous={self.hazardous!r})")
 
     def serialize(self):
+        """Serialize the String Output."""
         return {
             'name': self.name,
             'diameter_km': self.diameter,
@@ -113,7 +112,6 @@ class CloseApproach():
         :param info: A dictionary of excess keyword arguments supplied
         to the constructor.
         """
-
         try:
             self._designation = info.get("des", None)
         except ValueError:
@@ -140,13 +138,14 @@ class CloseApproach():
 
     @property
     def fullname(self):
+        """Define the fullname of the NEO."""
         if self.neo is not None:
             return self.neo
         else:
             return self._designation
 
     def time_str(self):
-        """Return a formatted representation of this `CloseApproach`'s
+        """Return a formatted representation of this `CloseApproach`'s\
         approach time.
 
         The value in `self.time` should be a Python `datetime` object.
@@ -158,25 +157,24 @@ class CloseApproach():
         formatted string that can be used in human-readable representations and
         in serialization to CSV and JSON files.
         """
-
         return datetime_to_str(self.time)
 
     def __str__(self):
         """Return `str(self)`."""
-
         return f"A CloseApproach at {self.time_str},\
              {(self.fullname)} approaches Earth at a distance of\
                   {float(self.distance):.2f} au and a velocity of\
                        {float(self.velocity):.2f} km/s"
 
     def __repr__(self):
-        """Return `repr(self)`, a computer-readable
+        """Return `repr(self)`, a computer-readable\
          string representation of this object."""
         return (f"CloseApproach(time={self.time_str()!r},\
              distance={float(self.distance):.2f}, "
                 f"velocity={float(self.velocity):.2f}, neo={self.neo!r})")
 
     def serialize(self):
+        """Serialize the String Output."""
         return {
             'designation': self._designation,
             'datetime_utc': self.time_str,

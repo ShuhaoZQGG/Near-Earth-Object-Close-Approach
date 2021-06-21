@@ -1,4 +1,4 @@
-"""Extract data on near-Earth objects and close approaches
+"""Extract data on near-Earth objects and close approaches\
 from CSV and JSON files.
 
 The `load_neos` function extracts NEO data from a CSV file, formatted as
@@ -42,7 +42,6 @@ def load_approaches(cad_json_path):
     about close approaches.
     :return: A collection of `CloseApproach`es.
     """
-    
     ca = []
 
     with open(cad_json_path, 'r') as infile:

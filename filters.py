@@ -1,4 +1,4 @@
-"""Provide filters for querying close approaches
+"""Provide filters for querying close approaches\
 and limit the generated results.
 
 The `create_filters` function produces a collection of objects that is used by
@@ -40,8 +40,9 @@ class AttributeFilter:
     Concrete subclasses can override the `get` classmethod to provide custom
     behavior to fetch a desired attribute from the given `CloseApproach`.
     """
+
     def __init__(self, op, value):
-        """Construct a new `AttributeFilter` from an binary predicate
+        """Construct a new `AttributeFilter` from an binary predicate\
         and a reference value.
 
         The reference value will be supplied as the second (right-hand side)
@@ -73,37 +74,54 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
+        """Return `repr(self)`, a computer-readable\
+         string representation of this object."""
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}\
             , value={self.value})"
 
 
 class Date_Filter(AttributeFilter):
+    """Define Date_Filter Class."""
+
     @classmethod
     def get(cls, approach):
+        """Define get method."""
         return approach.time.date()
 
 
 class Distance_Filter(AttributeFilter):
+    """Define Distance_Filter Class."""
+
     @classmethod
     def get(cls, approach):
+        """Define get method."""
         return approach.distance
 
 
 class Velocity_Filter(AttributeFilter):
+    """Define Velocity_Filter Class."""
+
     @classmethod
     def get(cls, approach):
+        """Define get method."""
         return approach.velocity
 
 
 class Diameter_Filter(AttributeFilter):
+    """Define Diameter_Filter Class."""
+
     @classmethod
     def get(cls, approach):
+        """Define get method."""
         return approach.neo.diameter
 
 
 class Hazardous_Filter(AttributeFilter):
+    """Define Hazardous_Filter Class."""
+
     @classmethod
     def get(cls, approach):
+        """Define get method."""
         return approach.neo.hazardous
 
 
@@ -152,7 +170,6 @@ def create_filters(date=None, start_date=None, end_date=None,
     is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-
     filters = []
     if date:
         filters.append(Date_Filter(operator.eq, date))
@@ -187,7 +204,6 @@ def limit(iterator, n=None):
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-
     if n is None or n == 0:
         return islice(iterator, None)
     else:
